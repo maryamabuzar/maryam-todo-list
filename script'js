@@ -1,0 +1,50 @@
+function saveTasks() {
+    localStorage.setItem("myTasks", document.getElementById("taskList").innerHTML);
+}
+
+function loadTasks() {
+    document.getElementById("taskList").innerHTML =
+        localStorage.getItem("myTasks") || "";
+}
+
+function addTask() {
+    let input = document.getElementById("taskInput");
+    let task = input.value.trim();
+
+    if (task === "") {
+        alert("Please enter a task!");
+        return;
+    }
+
+    let li = document.createElement("li");
+
+    let taskText = document.createElement("span");
+    taskText.textContent = task;
+
+    let completeBtn = document.createElement("button");
+    completeBtn.textContent = "Complete";
+
+    completeBtn.onclick = function() {
+        taskText.style.textDecoration = "line-through";
+        saveTasks();
+    };
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+
+    deleteBtn.onclick = function() {
+        li.remove();
+        saveTasks();
+    };
+
+    li.appendChild(taskText);
+    li.appendChild(completeBtn);
+    li.appendChild(deleteBtn);
+
+    document.getElementById("taskList").appendChild(li);
+
+    input.value = "";
+    saveTasks();
+}
+
+loadTasks();
